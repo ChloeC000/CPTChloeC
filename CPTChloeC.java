@@ -5,7 +5,7 @@ public class CPTChloeC{
 		Console con = new Console();
 	
 	con.println("hello world");
-	
+	con.println("So sleepy");
 	}
 }
 
