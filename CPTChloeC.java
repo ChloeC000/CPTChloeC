@@ -4,23 +4,31 @@ public class CPTChloeC{
 	public static void main(String[]args){
 		Console con = new Console();
 	
+	//variables
 	String strChoice1;
 	String strName;
+	String strQuizTopic;
+	int intMark;
 	String strQuiz1;
 	String strQuiz2;
 	String strQuiz3;
+	
+	
+	intMark = 0;
 	
 	con.println("Play Game (P)");
 	con.println("View High Score (V)");
 	con.println("Quit (Q)");
 	
 	strChoice1 = con.readLine();
+	
 	if(strChoice1.equalsIgnoreCase("P")){	
 		con.println("What is your name?");
 		strName = con.readLine();
 		
 	}else if(strChoice1.equalsIgnoreCase("V")){
-		TextInputFile HightScore = new TextInputFile("HighScore.txt");
+		TextOutputFile HighScore = new TextOutputFile("HighScore.txt");
+		con.println(strName + "   " + strQuizTopic + "   " + intMark);
 		
 	}else if(strChoice1.equalsIgnoreCase("Q")){
 		
