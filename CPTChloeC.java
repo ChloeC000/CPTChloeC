@@ -13,23 +13,28 @@ public class CPTChloeC{
 	String strQuiz2;
 	String strQuiz3;
 	
-	
+	//initialize variables
 	intMark = 0;
+	strName = "";
+	strQuizTopic = "";
 	
+	//main manu options
 	con.println("Play Game (P)");
 	con.println("View High Score (V)");
 	con.println("Quit (Q)");
-	
+	//player's choice
 	strChoice1 = con.readLine();
 	
+	//if statement 
+	//if player choose Play Game
 	if(strChoice1.equalsIgnoreCase("P")){	
 		con.println("What is your name?");
 		strName = con.readLine();
-		
+	//if player choose View High Score
 	}else if(strChoice1.equalsIgnoreCase("V")){
 		TextOutputFile HighScore = new TextOutputFile("HighScore.txt");
 		con.println(strName + "   " + strQuizTopic + "   " + intMark);
-		
+	//if player choose Quit
 	}else if(strChoice1.equalsIgnoreCase("Q")){
 		
 	}
