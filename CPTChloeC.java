@@ -6,16 +6,16 @@ public class CPTChloeC{
 	
 	//variables
 	String strChoice1;
-	String strName;
+	String strPlayerName;
 	String strQuizTopic;
+	String strScience[][];
 	int intMark;
-	String strQuiz1;
-	String strQuiz2;
-	String strQuiz3;
+	String strQuizName;
+	
 	
 	//initialize variables
 	intMark = 0;
-	strName = "";
+	strPlayerName = "";
 	strQuizTopic = "";
 	
 	//main manu options
@@ -29,11 +29,11 @@ public class CPTChloeC{
 	//if player choose Play Game
 	if(strChoice1.equalsIgnoreCase("P")){	
 		con.println("What is your name?");
-		strName = con.readLine();
+		strPlayerName = con.readLine();
 	//if player choose View High Score
 	}else if(strChoice1.equalsIgnoreCase("V")){
 		TextOutputFile HighScore = new TextOutputFile("HighScore.txt");
-		con.println(strName + "   " + strQuizTopic + "   " + intMark);
+		con.println(strPlayerName + "   " + strQuizTopic + "   " + intMark);
 	//if player choose Quit
 	}else if(strChoice1.equalsIgnoreCase("Q")){
 		
@@ -42,9 +42,7 @@ public class CPTChloeC{
 	
 	
 	TextInputFile Quizzes = new TextInputFile("quizzes.txt");
-	strQuiz1 = con.readLine();
-	strQuiz2 = con.readLine();
-	strQuiz3 = con.readLine();
+	
 	
 	/*
 	TextInputFile science = new TextInputFile("ScienceQuiz.txt");
