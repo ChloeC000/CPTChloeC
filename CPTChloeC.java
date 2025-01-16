@@ -50,8 +50,30 @@ public class CPTChloeC{
 
 	
 	
-	TextInputFile Quizzes = new TextInputFile("quizzes.txt");
-	
+	import arc.*;
+	import java.awt.Graphics;
+	import javax.swing.*;
+	import javax.swing.JComponent;
+
+	class LineDrawing extends JComponent {  
+		public void paint(Graphics g)
+		{
+			g.drawLine(100, 75, 125, 150);
+			g.drawLine(125, 75, 150, 150);
+			g.drawString("TEST", 700, 700);
+		}
+	}
+
+	public class graphictest{
+		public static void main (String [] args){
+
+		JFrame frame = new JFrame("MC Quiz");
+			   frame.setSize(1020, 800);  
+			   frame.getContentPane().add(new LineDrawing ());
+			   frame.setVisible(true);  
+		}
+	}
+		
 	
 	/*
 	TextInputFile science = new TextInputFile("ScienceQuiz.txt");
