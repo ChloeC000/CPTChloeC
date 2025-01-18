@@ -4,74 +4,152 @@ public class CPTChloeC{
 	public static void main(String[]args){
 		Console con = new Console();
 	
-	//variables
+	//variables//
+	//
+int int2;
 	int intCount;
+	int intNumOfQuiz;
+	int intNumOfQuestion;
+	int intQuizLine;
+	int intPropertySize;
+	int intRow;
+	int intColumn;
+	int intMark;
+	int intTest;
 	String strChoice1;
 	String strChoice2;
 	String strPlayerName;
-	String strQuizTopic[];
-	String strQuizzes;
-	int intNumOfQuiz;
+	String strQuizTopics[];
+	String strQuizChosen;
 	String strQuestion[][];
-	int intMark;
+	String strQuizzTXT;
+	String strQuizReadLine;
 	String strQuizName;
 	
 	
 	//initialize variables
+	strChoice1 = "";
 	intMark = 0;
+	intPropertySize = 6;
+	intQuizLine = 0;
 	intNumOfQuiz = 0;
+	intNumOfQuestion = 0;
 	strPlayerName = "";
+	strQuizChosen = "";
+	strQuestion = new String[intNumOfQuestion][6];
 
-	TextInputFile Quizzes = new TextInputFile("Quizzes.txt");
-		
-	while(Quizzes.eof()== false){
-		strQuizzes = Quizzes.readLine();
-		intNumOfQuiz = intNumOfQuiz + 1;
-	}
-
-	Quizzes.close();
-	strQuizTopic = new String[intNumOfQuiz];
 	
-	Quizzes = new TextInputFile("Quizzes.txt");
-	for(intCount = 0 ; intCount < intNumOfQuiz ; intCount++){
-		strQuizTopic[intCount] = Quizzes.readLine();
-	}
-	
-	for(intCount = 0 ; intCount < intNumOfQuiz ; intCount++){
-		con.println(strQuizTopic[intCount]);
-	}
-
 	//main manu options
 	con.println("Play Game (P)");
 	con.println("View High Score (V)");
 	con.println("Quit (Q)");
-	//player's choice
-	strChoice1 = con.readLine();
 	
+	//player's choice
+	strChoice1 = con.readLine();	
 	
 	//if statement 
 	//if player choose Play Game
-	if(strChoice1.equalsIgnoreCase("P")){	
-		con.println("What is your name?");
-		strPlayerName = con.readLine();
-		con.println("");
-		con.println("Which quiz do you want to try?" );
-		strChoice2 = con.readLine();
-		//when the player chooses science quiz
-		/*
-		if(strChoice2.equalsIgnoreCase()){	
-			TextOutputFile HighScore = new TextOutputFile("ScienceQuiz.txt");
+	if(strChoice1.equalsIgnoreCase("P")){
+		con.println("Here are your available quizzes: ");
+		
+		TextInputFile Quizzes = new TextInputFile("Quizzes.txt");
+		while(Quizzes.eof()== false){
+			strQuizChosen = Quizzes.readLine();
+			intNumOfQuiz = intNumOfQuiz + 1;
 		}
+			
+			strQuizTopics = new String[intNumOfQuiz];
+			Quizzes = new TextInputFile("Quizzes.txt");
+			
+			//using one dimensional array to print all lines in the Quizzes.txt
+			for(intCount = 0 ; intCount < intNumOfQuiz ; intCount++){
+				strQuizTopics[intCount] = Quizzes.readLine();
+			}
 		
-		*/
-	//if player choose View High Score
-	}else if(strChoice1.equalsIgnoreCase("V")){
-		TextOutputFile HighScore = new TextOutputFile("HighScore.txt");
-		con.println(strPlayerName + "   " + strQuizTopic + "   " + intMark);
-	//if player choose Quit
-	}else if(strChoice1.equalsIgnoreCase("Q")){
-		
+			for(intCount = 0 ; intCount < intNumOfQuiz ; intCount++){
+				con.println(strQuizTopics[intCount]);
+			}
+			
+			con.println("");
+			//player will choose one of the quizzes
+			con.println("Which quiz would you like to try? ");
+			strChoice2 = con.readLine();
+			
+			
+			//ask for player's name
+			con.println("What is your name? ");
+			strPlayerName = con.readLine();
+			con.println("");
+			
+			strQuizzTXT = strChoice2 + ".txt";
+			//con.println("TEST: " + strQuizzTXT);
+			//open text file
+			TextInputFile ChosenQuiz = new TextInputFile("ScienceQuiz.txt");
+			
+			//when the player chooses quiz
+			// open the text file according to the quiz that the player chooses
+			
+			con.println("TEST" + intNumOfQuiz);
+			for(intCount = 0 ; intCount < intNumOfQuiz ; intCount++){
+				if(strChoice2.equalsIgnoreCase(strQuizTopics[intCount])){
+					strQuizChosen = strQuizTopics[intCount];
+					con.println("TEST: " + strQuizChosen);
+					
+				}
+			}
+			
+				
+				intRow = 0;
+				intColumn = 0;
+				//intNumOfQuestion = 25;
+				
+										
+					strQuestion = new String[intNumOfQuestion][6];
+	
+					while(ChosenQuiz.eof() == false){
+						strQuestion[intRow][intColumn] = ChosenQuiz.readLine();
+						intQuizLine += 1;
+						//con.println("TEST2: " + intQuizLine);
+						
+						if(intColumn == 5){
+							intRow += 1;
+							intColumn = 0;
+							//con.println("TEST55");
+
+						}else if(intColumn < 5){
+							intColumn += 1;
+						}
+					}
+					
+					con.println(intQuizLine / intPropertySize);
+					intNumOfQuestion = intQuizLine / intPropertySize;
+					
+					//con.println("ccc" + intNumOfQuestion);
+					for(intRow = 0 ; intRow < intNumOfQuestion ; intRow++){
+						for(intColumn = 0 ; intColumn < 6 ; intColumn++){
+							System.out.println(strQuestion[intRow][intColumn]);
+						}
+					}
+	
+	
+				
+		}
+	
 	}
+	//sciencequiz
+				
+				
+		
+				
+			/*
+			//if player choose View High Score
+			}else if(strChoice1.equalsIgnoreCase("V")){
+			TextOutputFile HighScore = new TextOutputFile("HighScore.txt");
+			con.println(strPlayerName + "   " + strQuizChosen + "   " + intMark);
+		//if player choose Quit
+		}else if(strChoice1.equalsIgnoreCase("Q")){
+			
+	*/
 
 	
 	/*
@@ -98,15 +176,8 @@ public class CPTChloeC{
 			   frame.setVisible(true);  
 		}
 	}
-	
-	
-	/*
-	TextInputFile science = new TextInputFile("ScienceQuiz.txt");
-	TextInputFile movie = new TextInputFile("MovieDramaQuiz.txt");
-	TextInputFile history = new TextInputFile("HistoryQuiz.txt");
 	*/
 	
-
-	}
 }
+
 
