@@ -22,7 +22,6 @@ public class CPTPrep2{
 		con.setDrawFont(con.loadFont("comicbd.ttf", 30));
 		con.setTextFont(con.loadFont("comicbd.ttf", 30));
 		
-		BufferedImage imgBackground = con.loadImage("MainMenuBackground.jpg");
 		BufferedImage imgGameBKG = con.loadImage("gamebackground2.jpg");
 		con.drawImage(imgBackground, 0, 0);		
 		con.println("");
