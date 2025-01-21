@@ -4,8 +4,28 @@ import java.awt.image.*;
 
 public class CPTChloeC{
 	public static void main(String[] args){
-		Console con = new Console("Multiple Choice Game", 1280, 720);
-		//Declare variables
+		// Course: ICS3U1a Computer Science CPT
+		// Teacher: Mr. Alfred Ron Cadawas
+		// Student: Chloe Chui
+		// CPT Name: Multiple Choice Game
+		// Included Standard Features:
+		//		1. if/else
+		//		2. while loops
+		//		3. for loops
+		//		4. methods
+		//		5. file reading and file writing
+		//		6. arrays
+		//
+		// Included Extra Features:
+		//		1. imports and draws images
+		//		2. draws lines
+		//		3. (h)elp option
+		//		4. System.out.println to print debug messages
+		//		5. console window is 1280x720 with the title
+		//		6. cheat player's name increase the score by 2 times
+		//		7. uses getChar in different screens
+				
+		// Declare variables
 		String strQuizName[];
 		String strQuestion[][];
 		String strTempQuestion[][];				
@@ -14,6 +34,8 @@ public class CPTChloeC{
 		String strTempReadLine;
 		String strQuizFileName;
 		String strPlayerName;
+		String strPressAnyKey;
+		String strSeeYouNextTime;
 		int intXLoc;
 		int intYLoc;
 		int intQuizCount;
@@ -30,11 +52,13 @@ public class CPTChloeC{
 		int intRow;
 		int intRow2;
 		int intRow3;		
+		int intRatio;
 		double dblPlayerScore;
 		double dblTotalScore;
 		char chrGetChoice;
 		char chrChoice;
 		
+		Console con = new Console("Multiple Choice Game", 1280, 720);
 		// Init variables
 		con.setTextColor(Color.BLACK);
 		con.setDrawColor(Color.BLACK);
@@ -50,6 +74,9 @@ public class CPTChloeC{
 		BufferedImage imgResultBKG = con.loadImage("ResultBackground.jpg");		
 		BufferedImage imgScoreListBKG = con.loadImage("HighScoreList.jpg");		
 		BufferedImage imgHelpBKG = con.loadImage("HelpBackground.jpg");		
+		// Init common string values
+		strPressAnyKey = "Press any key to continue...";
+		strSeeYouNextTime = "See you next time. ";
 		chrChoice = ' ';
 		
 		// Show the main menu and accpet the menu choice
@@ -65,13 +92,15 @@ public class CPTChloeC{
 				intPropertySize = 6;   // Question line + 4 option lines + real answer line in the txt file
 				intXLoc = 50;
 				intYLoc = 100;		
+				intRatio = 1;
 				dblPlayerScore = 0;
 				dblTotalScore = 0.0;
 				RefreshBackgroundImage(con, imgQuizMenuBKG);	
 				con.drawString("Here are your available questions", 10, 10);
 				intQuizCount = CountTxtLine("Quizzes.txt");
 				strQuizName = new String[intQuizCount];
-				System.out.println("No. of Quizzes: " + intQuizCount);				
+				System.out.println("No. of Quizzes: " + intQuizCount);
+				// Display the quiz menu				
 				intQuizCount = 0;
 				TextInputFile Menu = new TextInputFile("Quizzes.txt");
 				while(Menu.eof() == false){
@@ -83,7 +112,7 @@ public class CPTChloeC{
 				Menu.close(); 
 				con.repaint();
 				
-				// Accept the quiz choice by entering the quiz no.
+				// Choose the quiz by entering the quiz no.
 				chrGetChoice = ' ';
 				strQuizFileName = "";
 				while (chrGetChoice != 'q') {
@@ -99,8 +128,19 @@ public class CPTChloeC{
 				
 				// Get the player's name
 				RefreshBackgroundImage(con, imgQuizMenuBKG);	
-				con.print("Please input your name: ");
-				strPlayerName = con.readLine();
+				strPlayerName = "";
+				while (strPlayerName.equals("")) {
+					con.print("Please input your name: ");
+					strPlayerName = con.readLine();
+					if (strPlayerName.equals("")){
+						con.println("Player's name cannot be blank.");
+					}
+				}	
+				// Cheat name to get double score
+				if (strPlayerName.equals("statitan")) {
+					intRatio = 2;
+					System.out.println("Enabled cheat. Score Ratio = " + intRatio);
+				}			
 				
 				// Prepare the game by showing the game screen, reading the quiz file and displaying the questions
 				con.clear();
@@ -123,7 +163,7 @@ public class CPTChloeC{
 					strQuestion[intQuestionNo][intProperty] = Quiz.readLine();
 					intProperty += 1;
 					intLineNo += 1;
-					// When it reads for every 7 lines, assign the random no. and jump to the next question
+					// When it reads for every 6 lines, assign the random no. and jump to the next question
 					if (intLineNo % 6 == 0) {
 						strQuestion[intQuestionNo][intPropertySize] = ((int)(Math.random() * 100 + 1)) + "";
 						intQuestionNo += 1;
@@ -171,19 +211,19 @@ public class CPTChloeC{
 					System.out.println(strQuestion[intCurrentQuestion][5]);
 					if (chrGetChoice == 'm' || chrGetChoice == 'q' || chrGetChoice == 'M' || chrGetChoice == 'Q') {
 						// Exit the loop
-						con.drawString("See you next time.", intXLoc, intYLoc);
+						con.drawString(strSeeYouNextTime + strPressAnyKey, intXLoc, intYLoc);
 						con.repaint();	
 						con.getChar();		
 						intCurrentQuestion = intTotalQuestions;  
 						if (chrGetChoice == 'q' || chrGetChoice == 'Q') {
 							chrChoice = 'q';
 						}
-					} else if (chrGetChoice == strQuestion[intCurrentQuestion][5].charAt(0)){
+					} else if (Character.toLowerCase(chrGetChoice) == Character.toLowerCase(strQuestion[intCurrentQuestion][5].charAt(0))){
 						// Answer correctly
-						con.drawString("Correct!", intXLoc, intYLoc);
+						con.drawString("Correct! " + strPressAnyKey, intXLoc, intYLoc);
 						con.repaint();							
 						dblPlayerScore += 1;
-						dblTotalScore = Math.round((100.0 * dblPlayerScore / intTotalQuestions) * 100.0) / 100.0;
+						dblTotalScore = Math.round((100.0 * (dblPlayerScore * intRatio) / intTotalQuestions) * 100.0) / 100.0;
 						System.out.println("Player score: " + dblPlayerScore);
 						System.out.println("Total score: " + dblTotalScore);
 						chrGetChoice = con.getChar();					
@@ -192,7 +232,7 @@ public class CPTChloeC{
 						con.repaint();	
 					} else {
 						// Answer incorrectly
-						con.drawString("Correct answer is " + strQuestion[intCurrentQuestion][5].charAt(0), intXLoc, intYLoc);
+						con.drawString("The correct answer is " + strQuestion[intCurrentQuestion][5].substring(0, 1).toUpperCase() + ". " + strPressAnyKey, intXLoc, intYLoc);
 						con.repaint();	
 						chrGetChoice = con.getChar();					
 						RefreshBackgroundImage(con, imgGameBKG);	
@@ -250,7 +290,8 @@ public class CPTChloeC{
 				// Read the high score records from the txt file
 				TextInputFile HighScore = new TextInputFile("highscore.txt");				
 				while(HighScore.eof() == false){
-					strPlayer[intCounter][intProperty] = HighScore.readLine();			
+					strPlayer[intCounter][intProperty] = HighScore.readLine();		
+					// When it reads for every 3 lines, create the next player record	
 					if (intProperty == intPropertySize) {
 						intCounter += 1;
 						intProperty = 0;
@@ -258,6 +299,7 @@ public class CPTChloeC{
 						intProperty += 1;			
 					}			
 				}
+				HighScore.close();
 				
 				// Bubble Sort the high score record based on the score from high to low
 				for(intRow2 = 0; intRow2 < intTotalPlayer - 1; intRow2++){
@@ -280,7 +322,7 @@ public class CPTChloeC{
 					}
 				}		
 				
-				// Show the sortedd result from high score to low score page by page
+				// Show the sorted result from high to low score page by page, each page shows 5 player records
 				intYLoc = 100;		
 				intPageSize = 600;
 				chrGetChoice = ' ';
@@ -299,7 +341,7 @@ public class CPTChloeC{
 					con.sleep(250);			
 					// Show 5 players for each page
 					if (intYLoc == intPageSize) {
-						con.drawString("Press any key to continue...", 100, intYLoc);
+						con.drawString(strPressAnyKey, 100, intYLoc);
 						con.repaint();	
 						chrGetChoice = con.getChar();
 						RefreshBackgroundImage(con, imgScoreListBKG);	
@@ -307,7 +349,7 @@ public class CPTChloeC{
 							// Exit the loop
 							intCounter = intTotalPlayer;	
 							chrChoice = chrGetChoice;
-							con.drawString("See you next time", 500, 350);
+							con.drawString(strSeeYouNextTime, 500, 350);
 							con.repaint();	
 						} else {
 							intYLoc = 100;				
@@ -315,7 +357,7 @@ public class CPTChloeC{
 					}
 					con.repaint();								
 				}	
-				con.drawString("Press any key to continue...", 100, intYLoc);
+				con.drawString(strPressAnyKey, 100, intYLoc);
 				con.getChar();					
 				RefreshBackgroundImage(con, imgMainMenuBKG);						
 			} else if (chrChoice == 'h' || chrChoice == 'H') {
@@ -335,6 +377,7 @@ public class CPTChloeC{
 		con.drawString("Player: " + strPlayer, 50, 0);
 		con.drawString("Quiz: " + strQuiz, 500, 0);		
 		con.drawString("Score: " + dlbScore + "%", 1000, 0);	
+		con.drawLine(50, 50, 1250, 50);
 	}	
 	
 	// Refresh the background image
